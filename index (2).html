@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#100b1c">
+<title>Script Hub — คลังสคริปต์ Roblox</title>
+<style>
+:root{--bg:#0b0812;--panel:#151020;--panel2:#1d1530;--purple:#9b5cff;--pink:#ed62ff;--text:#f7f1ff;--muted:#b8accb;--line:#302242}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#26113f 0,#0b0812 55%);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+header{padding:28px 18px 18px;text-align:center}.logo{display:inline-flex;align-items:center;gap:10px;font-weight:900;font-size:clamp(25px,5vw,40px);letter-spacing:.4px}.cube{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--purple),var(--pink));box-shadow:0 0 28px #9b5cff55}
+header p{color:var(--muted);margin:10px auto 20px;max-width:600px}.wrap{max-width:1050px;margin:auto;padding:0 16px 50px}
+.searchbox{display:flex;gap:10px;max-width:680px;margin:0 auto 18px}.searchbox input{flex:1;min-width:0;background:#171020;border:1px solid var(--line);border-radius:14px;padding:14px 16px;color:white;font:inherit;outline:none}.searchbox input:focus{border-color:var(--purple)}
+.filters{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:24px}.filter{border:1px solid var(--line);background:#171020;color:var(--muted);padding:9px 13px;border-radius:999px;cursor:pointer;font:inherit}.filter.active,.filter:hover{background:#382052;border-color:var(--purple);color:white}
+.notice{border:1px solid #60422b;background:#24180f;color:#f5d5ad;border-radius:12px;padding:12px 14px;font-size:13px;margin:0 auto 22px;max-width:900px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:15px}.card{background:linear-gradient(145deg,#191225,#110d19);border:1px solid var(--line);border-radius:18px;padding:17px;box-shadow:0 10px 30px #0002;display:flex;flex-direction:column;gap:12px}.cardtop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.card h2{font-size:17px;margin:0}.tag{font-size:11px;color:#e5caff;background:#37224d;border:1px solid #53336e;padding:5px 8px;border-radius:999px;white-space:nowrap}.desc{font-size:13px;color:var(--muted);margin-top:5px}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;background:#09070e;border:1px solid #292033;border-radius:12px;padding:12px;color:#d9c9f8;font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;margin:0;min-height:88px;max-height:190px;overflow:auto}
+.copy{width:100%;border:0;border-radius:11px;padding:11px 14px;background:linear-gradient(100deg,#8d4cff,#c64df4);color:white;font:700 14px system-ui;cursor:pointer}.copy:hover{filter:brightness(1.12)}.copy:active{transform:scale(.99)}
+.empty{display:none;text-align:center;color:var(--muted);padding:35px}.foot{text-align:center;color:#887a9d;font-size:12px;margin-top:30px}
+@media(min-width:700px){header{padding-top:42px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><span class="cube">⌘</span><span>Script <span style="color:#c68aff">Hub</span></span></div>
+  <p>รวมสคริปต์ Roblox ไว้ในที่เดียว · ค้นหาง่าย · คัดลอกได้ในคลิกเดียว</p>
+</header>
+<main class="wrap">
+  <div class="searchbox"><input id="search" type="search" placeholder="🔎 ค้นหาชื่อสคริปต์หรือแมพ..." aria-label="ค้นหาสคริปต์"></div>
+  <nav class="filters" aria-label="หมวดหมู่">
+    <button class="filter active" data-filter="ทั้งหมด">ทั้งหมด</button>
+    <button class="filter" data-filter="ทั่วไป">ทั่วไป</button>
+    <button class="filter" data-filter="Blox Fruits">Blox Fruits</button>
+    <button class="filter" data-filter="ขโมยไข่">ขโมยไข่</button>
+    <button class="filter" data-filter="Squid Game X">Squid Game X</button>
+    <button class="filter" data-filter="ฟุตบอลเถื่อน">ฟุตบอลเถื่อน</button>
+  </nav>
+  <div class="notice">⚠️ คำเตือน: สคริปต์จากแหล่งภายนอกอาจไม่ปลอดภัยและอาจขัดกับกฎของ Roblox ควรตรวจสอบแหล่งที่มาก่อนใช้งาน ห้ามกรอกรหัสผ่านหรือข้อมูลบัญชีในเครื่องมือที่ไม่รู้จัก</div>
+  <section class="grid" id="cards"></section>
+  <div class="empty" id="empty">ไม่พบสคริปต์ที่ค้นหา ลองใช้คำอื่น</div>
+  <div class="foot">Script Hub · เว็บไซต์ตัวอย่างแบบไฟล์เดียว · ตรวจสอบสคริปต์ก่อนใช้งานทุกครั้ง</div>
+</main>
+<script>
+const scripts = [
+ {name:"ภาษาไทย",cat:"ทั่วไป",desc:"โหลดสคริปต์ภาษาไทย",code:'loadstring(game:HttpGet("https://loader.scriptdee.com/loaders/nevath.lua"))()'},
+ {name:"Redz Hub",cat:"Blox Fruits",desc:"สคริปต์สำหรับ Blox Fruits",code:'loadstring(game:HttpGet("https://raw.githubusercontent.com/bloxfruitsnokey/Redz/refs/heads/main/Redz/update.luau"))()'},
+ {name:"Quantum Onyx",cat:"Blox Fruits",desc:"สคริปต์จาก Quantum Onyx",code:'loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))()'},
+ {name:"Hermanos Hub — PVP Mode",cat:"Blox Fruits",desc:"โหมด PVP",code:'getgenv().script_mode = "PVP"\nloadstring(game:HttpGet("https://raw.githubusercontent.com/hermanos-dev/hermanos-hub/refs/heads/main/Loader.lua"))()'},
+ {name:"Universal Script",cat:"ทั่วไป",desc:"สคริปต์แบบ Universal",code:'loadstring(game:HttpGet("https://raw.githubusercontent.com/wackshopr-tech/script-roblox-all/refs/heads/main/Main-GUI-2.lua",true))()'},
+ {name:"Serenity Hub",cat:"ขโมยไข่",desc:"สคริปต์สำหรับแมพขโมยไข่",code:'loadstring(game:HttpGet("https://raw.githubusercontent.com/MUshihara/Serenity-hub/main/loader.lua"))()'},
+ {name:"Chilli Hub V5",cat:"ขโมยไข่",desc:"สคริปต์สำหรับแมพขโมยไข่",code:'loadstring(game:HttpGet("https://raw.githubusercontent.com/ronnei/hihi/refs/heads/main/chillihubv5.lua"))()'},
+ {name:"Squid Game X",cat:"Squid Game X",desc:"สคริปต์สำหรับ Squid Game X",code:'loadstring(game:HttpGet("https://raw.githubusercontent.com/GalacticScripts/Galactic-Hub/refs/heads/main/WindUI"))()'},
+ {name:"ValueHat",cat:"ฟุตบอลเถื่อน",desc:"สคริปต์สำหรับแมพฟุตบอลเถื่อน",code:'loadstring(game:HttpGet("https://raw.githubusercontent.com/ValueHat-Script/Valuehat-script/refs/heads/main/IllegalSoccer.lua"))()'}
+];
+const cards=document.getElementById('cards'), search=document.getElementById('search'), empty=document.getElementById('empty');
+let active='ทั้งหมด';
+function render(){
+ const q=search.value.trim().toLowerCase();
+ const shown=scripts.filter(s=>(active==='ทั้งหมด'||s.cat===active)&&(s.name+' '+s.cat+' '+s.desc).toLowerCase().includes(q));
+ cards.innerHTML='';
+ shown.forEach((s,i)=>{
+  const card=document.createElement('article');card.className='card';
+  const top=document.createElement('div');top.className='cardtop';
+  const info=document.createElement('div');const h=document.createElement('h2');h.textContent=s.name;
+  const d=document.createElement('div');d.className='desc';d.textContent=s.desc;info.append(h,d);
+  const tag=document.createElement('span');tag.className='tag';tag.textContent=s.cat;top.append(info,tag);
+  const pre=document.createElement('pre');pre.textContent=s.code;
+  const btn=document.createElement('button');btn.className='copy';btn.textContent='📋 คัดลอกโค้ด';
+  btn.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(s.code);btn.textContent='✅ คัดลอกแล้ว!';}catch(e){const ta=document.createElement('textarea');ta.value=s.code;document.body.append(ta);ta.select();document.execCommand('copy');ta.remove();btn.textContent='✅ คัดลอกแล้ว!';}setTimeout(()=>btn.textContent='📋 คัดลอกโค้ด',1500);});
+  card.append(top,pre,btn);cards.append(card);
+ });
+ empty.style.display=shown.length?'none':'block';
+}
+document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');active=b.dataset.filter;render()}));
+search.addEventListener('input',render);render();
+</script>
+</body>
+</html>
